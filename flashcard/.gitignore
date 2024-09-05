@@ -50,3 +50,7 @@ app.*.map.json
 
 #ephemeral files
 **/ephemeral/**
+
+/web/index.html
+/ios/Runner/GoogleService-Info.plist
+/android/app/google-services.json
