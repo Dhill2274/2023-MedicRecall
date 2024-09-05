@@ -1,0 +1,29 @@
+name: integration
+on:
+  push:
+    branches: ["dev"]
+defaults:
+  run:
+    working-directory: flashcard
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.12'
+          channel: 'stable'
+      - run: flutter analyze
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.12'
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter test
+      - run: chromedriver --port=4444 &
+      - run: flutter drive --driver=test_driver/integration_test_driver.dart --target=integration_test/app_test.dart -d web-server --headless
